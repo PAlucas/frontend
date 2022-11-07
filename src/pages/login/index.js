@@ -1,11 +1,12 @@
 import { useState } from "react";
-import Api from '../service/Api'
-import "./login.css";
+import { useNavigate } from "react-router-dom";
+import Api from '../../service/Api'
+import "./style.css";
 
 function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-
+  let navigate = useNavigate();
   function Enviar(e){
     e.preventDefault()
     let usuarioLogado = {
@@ -13,7 +14,13 @@ function Login() {
       senha: password
     }
     Api.post('/Usuario', usuarioLogado)
-    .then((res) => console.log(res.data[0].nome))
+    .then((res) => {
+      if(res.data[0].tipo === '1'){
+        navigate(`/inicioAdm?cliente=${res.data[0].usu_id}`);
+      } else {
+        navigate(`/inicioAdm?cliente=${res.data[0].usu_id}`);
+      }
+    })
   }
   return (
     <div className="container">
