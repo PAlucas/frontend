@@ -1,14 +1,13 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import Login from './pages/login'
-import InicioAdm from './pages/InicioAdm'
+import Inicio from './pages/Inicio'
 
 export const AppRoutes = () => {
   return (
     <Router>
       <Routes>
             <Route path="/" exact element={<Login/>} />
-            <Route path="/inicioAdm" exact element={<InicioAdm/>} />
-            <Route path="/inicioAprendiz" exact element={<InicioAdm/>} />
+            <Route path="/inicio" exact element={<Inicio/>} />
       </Routes>
     </Router>
   )

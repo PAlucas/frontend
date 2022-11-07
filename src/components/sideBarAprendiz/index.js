@@ -1,11 +1,11 @@
 import React from 'react';
-import * as FaIcons from 'react-icons/fa';
-import * as AiIcons from 'react-icons/ai';
 import * as IoIcons from 'react-icons/io';
 
 export const SidebarAprendiz = [
   {
     title: 'Módulos',
-    path: '/modulo'
+    path: '/modulo',
+    icon: <IoIcons.IoIosPaper />,
+    cName: 'nav-text'
   }
 ];

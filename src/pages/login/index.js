@@ -15,11 +15,7 @@ function Login() {
     }
     Api.post('/Usuario', usuarioLogado)
     .then((res) => {
-      if(res.data[0].tipo === '1'){
-        navigate(`/inicioAdm?cliente=${res.data[0].usu_id}`);
-      } else {
-        navigate(`/inicioAdm?cliente=${res.data[0].usu_id}`);
-      }
+      navigate(`/inicio?cliente=${res.data[0].usu_id}`);
     })
   }
   return (
