@@ -1,32 +1,155 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect} from "react";
+import {useForm} from 'react-hook-form';
 import Api from '../../service/Api'
 import "./style.css";
+import { ChakraProvider } from "@chakra-ui/react";
 import Navbar from "../../components/navbar";
-import { useSearchParams } from 'react-router-dom';
+import {
+    Flex,
+    Box,
+    Center,
+    FormControl,
+    Input,
+    FormLabel,
+    HStack,
+    RadioGroup,
+    Radio,
+    Button,
+    FormErrorMessage,
+  } from "@chakra-ui/react";
 
 function InicioAdm() {  
-  const [nome, setNome] = useState("");
-  const [searchParams, setSearchParams] = useSearchParams();
+  const {register, handleSubmit, formState: { errors, isSubmitting }, reset} = useForm();
 
-  function setNomeUsuario (userName){
-    setNome(userName);
-  }
-  useEffect(() => {
-    const fetchData = async () => {
-      
-      let dataUsuario = await Api.get(`Usuario/userId?cliente=${searchParams.get("cliente")}`);
-      let result = await dataUsuario.data[0];
-      setNomeUsuario(result.nome);
+  const onSubmit = (data) =>{
+    let criarUsuario = {
+        nome: data.name,
+        email: data.email,
+        senha: data.password,
+        sobrenome: data.sobrenome,
+        tipo: data.tipo === 'Administrador' ? '1': '2'
     }
-    fetchData();
-  }, [searchParams]);
+    Api.post('usuario/Cadastrar', criarUsuario)
+    .then((res) => {
+        alert(res.data)
+        if(res.status === 200){
+            reset();
+        }
+    })
+
+  }
+
   return (
-    <div className="container">
+    <ChakraProvider>
+        <Box h="100vh">
         <Navbar/>
-        <div className="container-bem-vindo">
-            <h1>Bem vindo {nome}</h1>
-        </div>
-    </div>
+        <Center
+            as="header"
+            h={150}
+            bg="#060b26"
+            color="white"
+            fontWeight="bold"
+            fontSize="4xl"
+            pb="8"
+        >
+            Formulário
+        </Center>
+        <Flex
+            align="center"
+            justify="center"
+            bg="#111"
+            h="calc(100vh - 150px)"
+        >
+            <Center
+            w="100%"
+            maxW={840}
+            bg="white"
+            top={100}
+            position="absolute"
+            borderRadius={5}
+            p="6"
+            boxShadow="0 1px 2px #ccc"
+            >
+            <form onSubmit={handleSubmit(onSubmit)}>
+                <FormControl display="flex" flexDir="column" gap="4" isInvalid={errors.name || errors.email || errors.password || errors.sobrenome}>
+                    <HStack spacing="4">
+                    <Box w="100%">
+                        <FormLabel htmlFor="name">Nome</FormLabel>
+                        <Input id="name" {...register('name', {
+                            required: 'This is required',
+                            minLength: { value: 4, message: 'Nome deve ter mais de 4 caracteres' },
+                        })} />
+                    </Box>
+                    <Box w="100%">
+                        <FormLabel htmlFor="email">E-mail</FormLabel>
+                        <Input id="email" type="email" {...register('email', {
+                            required: 'This is required',
+                            minLength: { value: 10, message: 'Email deve ter mais de 10 caracteres' },
+                        })}/>
+                    </Box>
+                    </HStack>
+                    <HStack spacing="4">
+                    <Box w="100%">
+                        <FormLabel htmlFor="senha">Senha</FormLabel>
+                        <Input id="senha" type="password" {...register('password', {
+                            required: 'This is required',
+                            minLength: { value: 6, message: 'Senha deve ter mais de 6 caracteres' },
+                        })}/>
+                    </Box>
+                    <Box w="100%">
+                        <FormLabel htmlFor="sobrenome">Sobrenome</FormLabel>
+                        <Input id="sobrenome" {...register('sobrenome', {
+                            required: 'This is required',
+                            minLength: { value: 10, message: 'Sobrenome deve ter mais de 10 caracteres' },
+                        })}/>
+                    </Box>
+                    </HStack>
+                    <HStack spacing="4">
+                    <Box w="100%">
+                        <FormLabel>Tipo</FormLabel>
+                        <RadioGroup defaultValue="Aprendiz">
+                        <HStack spacing="24px">
+                            <Radio value="Administrador" {...register('tipo')} >Administrador</Radio>
+                            <Radio value="Aprendiz" {...register('tipo')}>Aprendiz</Radio>
+                        </HStack>
+                        </RadioGroup>
+                    </Box>
+                    </HStack>
+                    <HStack justify="center">
+                    <Button
+                        w={240}
+                        p="6"
+                        type="submit"
+                        bg="teal.600"
+                        color="white"
+                        fontWeight="bold"
+                        fontSize="xl"
+                        mt="2"
+                        _hover={{ bg: "teal.800" }}
+                    isLoading={isSubmitting}  
+                    >
+                        Enviar
+                    </Button>
+                    </HStack>
+                    <FormErrorMessage>
+                        {errors.name && errors.name.message}
+                    </FormErrorMessage>
+                    <FormErrorMessage>
+                        {errors.email && errors.email.message}
+                    </FormErrorMessage>
+                    <FormErrorMessage>
+                        {errors.password && errors.password.message}
+                    </FormErrorMessage>
+                    <FormErrorMessage>
+                        {errors.sobrenome && errors.sobrenome.message}
+                    </FormErrorMessage>
+                </FormControl>
+            </form>
+            </Center>
+        </Flex>
+        </Box>
+    </ChakraProvider>
+
   );
 }
 
