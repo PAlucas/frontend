@@ -38,6 +38,11 @@
     list-style: none;
     height: 60px;
   }
+  .nav-space{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
   
   .nav-text a {
     text-decoration: none;

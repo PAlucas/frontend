@@ -5,9 +5,15 @@ import * as IoIcons from 'react-icons/io';
 
 export const SidebarAdm = [
   {
+    title: 'Início',
+    path: '/inicio',
+    icon: <AiIcons.AiFillHome />,
+    cName: 'nav-text'
+  },
+  {
     title: 'Cadastrar Usuário',
     path: '/castrarUser',
-    icon: <AiIcons.AiFillHome />,
+    icon: <FaIcons.FaPen />,
     cName: 'nav-text'
   },
   {
