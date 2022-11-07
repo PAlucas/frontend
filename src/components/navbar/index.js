@@ -44,7 +44,7 @@ function Navbar() {
               SidebarAdm.map((item, index) => {
                 return (
                   <li key={index} className={item.cName}>
-                    <Link to={item.path}>
+                    <Link to={`${item.path}?cliente=${tipoClient}`}>
                       {item.icon}
                       <span>{item.title}</span>
                     </Link>
@@ -55,7 +55,7 @@ function Navbar() {
               SidebarAprendiz.map((item, index) => {
                 return (
                   <li key={index} className={item.cName}>
-                    <Link to={item.path}>
+                    <Link to={`${item.path}?cliente=${tipoClient}`}>
                       {item.icon}
                       <span>{item.title}</span>
                     </Link>
