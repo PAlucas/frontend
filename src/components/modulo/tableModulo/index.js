@@ -11,8 +11,41 @@ import TableRow from '@mui/material/TableRow';
 import Typography from '@mui/material/Typography';
 import Paper from '@mui/material/Paper';
 import * as FaIcons from 'react-icons/fa';
-import { Center } from '@chakra-ui/react';
-function Row(props) {
+import TabelaTarefa from '../tableTarefa'
+
+function createDataAux(name, calories, fat, carbs, protein, price) {
+    return {
+      name,
+      calories,
+      fat,
+      carbs,
+      protein,
+      price,
+      history: [
+        {
+          date: '2020-01-05',
+          customerId: '11091700',
+          amount: 3,
+        },
+        {
+          date: '2020-01-02',
+          customerId: 'Anonymous',
+          amount: 1,
+        },
+      ],
+    };
+  }
+
+
+const rowsAux = [
+    createDataAux('Frozen yoghurt', 159, 6.0, 24, 4.0, 3.99),
+    createDataAux('Ice cream sandwich', 237, 9.0, 37, 4.3, 4.99),
+    createDataAux('Eclair', 262, 16.0, 24, 6.0, 3.79),
+    createDataAux('Cupcake', 305, 3.7, 67, 4.3, 2.5),
+    createDataAux('Gingerbread', 356, 16.0, 49, 3.9, 1.5),
+];
+
+function LinhaModulo(props) {
     const { row } = props;
     const [open, setOpen] = React.useState(false);
     return (
@@ -33,26 +66,26 @@ function Row(props) {
         <TableCell align="right">{row.calories}</TableCell>
         </TableRow>
         <TableRow>
-        <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
+        <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={9}>
             <Collapse in={open} timeout="auto" unmountOnExit>
                 <BoxM sx={{ margin: 1 }}>
                 <Typography variant="h6" gutterBottom component="div">
-                    {row.name}
+                <TableContainer component={Paper}>
+                    <Table aria-label="collapsible table">
+                        <TableHead>
+                            <TableRow>
+                                <TableCell />
+                                <TableCell align='left'>Tarefas</TableCell>
+                            </TableRow>
+                        </TableHead>
+                        <TableBody>
+                            {rowsAux.map((rowAux) => (
+                                <TabelaTarefa key={rowAux.name} row={rowAux}/>
+                            ))}
+                        </TableBody>
+                    </Table>
+                </TableContainer>
                 </Typography>
-                {/* <BoxM
-                sx={{
-                    width: '100%',
-                    display: 'flex',
-                    flexDirection: 'column',
-                    alignItems: 'center'
-                }}
-                >
-                    <span>Conteudo</span>
-                    <div>image</div>
-                    <div>
-                        <iframe src="https://www.youtube.com/embed/2LvNRMJ1s3Y" frameborder="0"></iframe>
-                    </div>
-                </BoxM> */}
                 </BoxM>
             </Collapse>
         </TableCell>
@@ -61,4 +94,4 @@ function Row(props) {
     );
 }
 
-export default Row;
+export default LinhaModulo;

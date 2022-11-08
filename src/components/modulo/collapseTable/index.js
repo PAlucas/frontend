@@ -10,7 +10,7 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Typography from '@mui/material/Typography';
 import Paper from '@mui/material/Paper';
-import Row from '../tableModulo'
+import TableModulo from '../tableModulo';
 
 function createData(name, calories, fat, carbs, protein, price) {
     return {
@@ -56,7 +56,7 @@ function CollapsibleTable() {
           </TableHead>
           <TableBody>
           {rows.map((row) => (
-            <Row key={row.name} row={row} />
+            <TableModulo key={row.name} row={row} />
           ))}
           </TableBody>
         </Table>
