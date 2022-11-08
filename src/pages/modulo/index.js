@@ -15,30 +15,7 @@ import {
 import ModalModulo from '../../components/modulo/modal'
 import CollapseTable from '../../components/modulo/collapseTable'
 
-function createData(name, calories, fat, carbs, protein, price) {
-    return {
-      name,
-      calories,
-      fat,
-      carbs,
-      protein,
-      price,
-      history: [
-        {
-          date: '2020-01-05',
-          customerId: '11091700',
-          amount: 3,
-        },
-        {
-          date: '2020-01-02',
-          customerId: 'Anonymous',
-          amount: 1,
-        },
-      ],
-    };
-  }
 function Modulo() {  
-  const [open, setOpen] = useState(false);
   const {register, handleSubmit, formState: { errors, isSubmitting }, reset} = useForm();
   const { isOpen, onOpen, onClose } = useDisclosure()
 

@@ -48,6 +48,7 @@ const rowsAux = [
 function LinhaModulo(props) {
     const { row } = props;
     const [open, setOpen] = React.useState(false);
+    const [openProva, setOpenProva] = React.useState(false);
     return (
     <React.Fragment>
         <TableRow sx={{ '& > *': { borderBottom: 'unset' } }}>
@@ -82,6 +83,35 @@ function LinhaModulo(props) {
                             {rowsAux.map((rowAux) => (
                                 <TabelaTarefa key={rowAux.name} row={rowAux}/>
                             ))}
+                                    <TableRow>
+                            <TableCell>
+                                <IconButton
+                                    aria-label="expand row"
+                                    onClick={() => setOpenProva(!openProva)}
+                                >
+                                    {openProva ? <FaIcons.FaArrowUp /> : <FaIcons.FaArrowDown />}
+                                </IconButton>
+                            </TableCell>
+                            <TableCell component="th" scope="row">
+                                Prova
+                            </TableCell>
+                            </TableRow>
+                            <TableRow>
+                            <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
+                                <Collapse in={openProva} timeout="auto" unmountOnExit>
+                                    <BoxM
+                                    sx={{
+                                        width: '100%',
+                                        display: 'flex',
+                                        flexDirection: 'column',
+                                        alignItems: 'center'
+                                    }}
+                                    >
+                                        <span>Prova</span>
+                                    </BoxM> 
+                                </Collapse>
+                            </TableCell>
+                            </TableRow>     
                         </TableBody>
                     </Table>
                 </TableContainer>
