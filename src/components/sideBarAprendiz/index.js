@@ -7,11 +7,5 @@ export const SidebarAprendiz = [
     path: '/modulo',
     icon: <IoIcons.IoIosPaper />,
     cName: 'nav-text'
-  },
-  {
-    title: 'Deslogar',
-    path: '/',
-    icon: <IoIcons.IoMdLogOut />,
-    cName: 'nav-text'
   }
 ];

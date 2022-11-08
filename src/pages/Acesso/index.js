@@ -9,33 +9,49 @@ import {
     Box,
     Center,
     FormControl,
-    Input,
     FormLabel,
     HStack,
     RadioGroup,
     Radio,
     Button,
     FormErrorMessage,
+    Select,
+    Checkbox, 
+    CheckboxGroup
   } from "@chakra-ui/react";
 
 function Acesso() {  
   const {register, handleSubmit, formState: { errors, isSubmitting }, reset} = useForm();
+  const [usuario, setUsuario] = useState([]);
 
+  function setUsuarioArray(array){
+    setUsuario(array);
+  }
+  useEffect(()=>{
+    const pegarClientes = async () =>{
+        let usuariosAprendizReq = await Api.get('Usuario');
+        let usuariosAprendizRes = await usuariosAprendizReq.data;
+        setUsuarioArray(usuariosAprendizRes);
+    }
+    const pegarModulos = async () =>{
+        let usuariosAprendizReq = await Api.get('Modulos');
+        let usuariosAprendizRes = await usuariosAprendizReq.data;
+        setUsuarioArray(usuariosAprendizRes);
+    }
+    pegarClientes();
+  },[])
   const onSubmit = (data) =>{
     let criarUsuario = {
-        nome: data.name,
-        email: data.email,
-        senha: data.password,
-        sobrenome: data.sobrenome,
-        tipo: data.tipo === 'Administrador' ? '1': '2'
+        id: data.name
     }
-    Api.post('usuario/Cadastrar', criarUsuario)
-    .then((res) => {
-        alert(res.data)
-        if(res.status === 200){
-            reset();
-        }
-    })
+    // Api.post('usuario/Cadastrar', criarUsuario)
+    // .then((res) => {
+    //     alert(res.data)
+    //     if(res.status === 200){
+    //         reset();
+    //     }
+    // })
+    console.log(criarUsuario);
 
   }
 
@@ -71,37 +87,16 @@ function Acesso() {
             boxShadow="0 1px 2px #ccc"
             >
             <form onSubmit={handleSubmit(onSubmit)}>
-                <FormControl display="flex" flexDir="column" gap="4" isInvalid={errors.name || errors.email || errors.password || errors.sobrenome}>
+                <FormControl display="flex" flexDir="column" gap="4" isInvalid={errors.id}>
                     <HStack spacing="4">
                     <Box w="100%">
-                        <FormLabel htmlFor="name">Nome</FormLabel>
-                        <Input id="name" borderColor='green' {...register('name', {
-                            required: 'This is required',
-                            minLength: { value: 4, message: 'Nome deve ter mais de 4 caracteres' },
-                        })} />
-                    </Box>
-                    <Box w="100%">
-                        <FormLabel htmlFor="email">E-mail</FormLabel>
-                        <Input id="email" borderColor='green' type="email" {...register('email', {
-                            required: 'This is required',
-                            minLength: { value: 10, message: 'Email deve ter mais de 10 caracteres' },
-                        })}/>
-                    </Box>
-                    </HStack>
-                    <HStack spacing="4">
-                    <Box w="100%">
-                        <FormLabel htmlFor="senha">Senha</FormLabel>
-                        <Input id="senha" borderColor='green' type="password" {...register('password', {
-                            required: 'This is required',
-                            minLength: { value: 6, message: 'Senha deve ter mais de 6 caracteres' },
-                        })}/>
-                    </Box>
-                    <Box w="100%">
-                        <FormLabel htmlFor="sobrenome">Sobrenome</FormLabel>
-                        <Input id="sobrenome" borderColor='green' {...register('sobrenome', {
-                            required: 'This is required',
-                            minLength: { value: 10, message: 'Sobrenome deve ter mais de 10 caracteres' },
-                        })}/>
+                        <FormLabel htmlFor="id">Nome</FormLabel>
+                        <Select placeholder='Select option' {...register('id', {
+                            required: 'This is required'})}>
+                            {usuario.map((element)=>(
+                                <option value={element.usu_id}>{element.nome}</option>
+                            ))}
+                        </Select>
                     </Box>
                     </HStack>
                     <HStack spacing="4">
@@ -132,16 +127,7 @@ function Acesso() {
                     </Button>
                     </HStack>
                     <FormErrorMessage>
-                        {errors.name && errors.name.message}
-                    </FormErrorMessage>
-                    <FormErrorMessage>
-                        {errors.email && errors.email.message}
-                    </FormErrorMessage>
-                    <FormErrorMessage>
-                        {errors.password && errors.password.message}
-                    </FormErrorMessage>
-                    <FormErrorMessage>
-                        {errors.sobrenome && errors.sobrenome.message}
+                        {errors.id && errors.id.message}
                     </FormErrorMessage>
                 </FormControl>
             </form>
