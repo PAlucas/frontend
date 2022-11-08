@@ -23,10 +23,26 @@ import {
 function Acesso() {  
   const {register, handleSubmit, formState: { errors, isSubmitting }, reset} = useForm();
   const [usuario, setUsuario] = useState([]);
+  const [modulo, setModulo] = useState([]);
+  const [acesso, setAcesso] = useState([]);
+  const [valor, setValor] = useState(localStorage.getItem("id"));
 
   function setUsuarioArray(array){
     setUsuario(array);
   }
+  async function acessos(e){
+    setValor(e.target.value);
+    localStorage.setItem('id', e.target.value);
+    let AcessoReq = await Api.get(`Acessomodulo/usuario?aprendiz=${e.target.value}`);
+    let AcessoRes = await AcessoReq.data;
+    let arrayIds = new Array();
+    AcessoRes.forEach(element => {
+        arrayIds.push(element.modulo_id);
+    });
+    localStorage.setItem('acessos', arrayIds.join(","));
+    
+    window.location.reload(false);
+ }
   useEffect(()=>{
     const pegarClientes = async () =>{
         let usuariosAprendizReq = await Api.get('Usuario');
@@ -34,24 +50,24 @@ function Acesso() {
         setUsuarioArray(usuariosAprendizRes);
     }
     const pegarModulos = async () =>{
-        let usuariosAprendizReq = await Api.get('Modulos');
-        let usuariosAprendizRes = await usuariosAprendizReq.data;
-        setUsuarioArray(usuariosAprendizRes);
+        let moduloReq = await Api.get('Modulo');
+        let moduloRes = await moduloReq.data;
+        setModulo(moduloRes);
     }
     pegarClientes();
+    pegarModulos();
   },[])
+
   const onSubmit = (data) =>{
     let criarUsuario = {
-        id: data.name
+        usuId: (data.id === '')? localStorage.getItem("id"): data.id,
+        moduloId: data.tipo.join(",")
     }
-    // Api.post('usuario/Cadastrar', criarUsuario)
-    // .then((res) => {
-    //     alert(res.data)
-    //     if(res.status === 200){
-    //         reset();
-    //     }
-    // })
-    console.log(criarUsuario);
+    Api.post('AcessoModulo/Cadastrar', criarUsuario)
+    .then((res) => {
+        alert(res.data)
+
+    })
 
   }
 
@@ -91,8 +107,7 @@ function Acesso() {
                     <HStack spacing="4">
                     <Box w="100%">
                         <FormLabel htmlFor="id">Nome</FormLabel>
-                        <Select placeholder='Select option' {...register('id', {
-                            required: 'This is required'})}>
+                        <Select placeholder='Select option' value={valor} {...register('id')} onChange={(e) => acessos(e)}>
                             {usuario.map((element)=>(
                                 <option value={element.usu_id}>{element.nome}</option>
                             ))}
@@ -102,12 +117,20 @@ function Acesso() {
                     <HStack spacing="4">
                     <Box w="100%">
                         <FormLabel>Tipo</FormLabel>
-                        <RadioGroup defaultValue="Aprendiz">
                         <HStack spacing="24px">
-                            <Radio value="Administrador" borderColor='green' {...register('tipo')} >Administrador</Radio>
-                            <Radio value="Aprendiz" borderColor='green' {...register('tipo')}>Aprendiz</Radio>
+                            {modulo.map((element) =>{
+                                let acessos = localStorage.getItem("acessos");
+                                if(acessos != null){
+                                    if(localStorage.getItem("acessos").split(",").includes(element.modulo_id.toString())){
+                                        return <Checkbox  defaultChecked={true} value={element.modulo_id} borderColor='green' {...register('tipo')} >{element.nome}</Checkbox>;
+                                    } else {
+                                        return <Checkbox value={element.modulo_id} borderColor='green' {...register('tipo')} >{element.nome}</Checkbox>;
+                                    }
+                                } else {
+                                    return <Checkbox value={element.modulo_id} borderColor='green' {...register('tipo')} >{element.nome}</Checkbox>;
+                                }
+                            })}
                         </HStack>
-                        </RadioGroup>
                     </Box>
                     </HStack>
                     <HStack justify="center">
