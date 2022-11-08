@@ -75,14 +75,14 @@ function InicioAdm() {
                     <HStack spacing="4">
                     <Box w="100%">
                         <FormLabel htmlFor="name">Nome</FormLabel>
-                        <Input id="name" {...register('name', {
+                        <Input id="name" borderColor='green' {...register('name', {
                             required: 'This is required',
                             minLength: { value: 4, message: 'Nome deve ter mais de 4 caracteres' },
                         })} />
                     </Box>
                     <Box w="100%">
                         <FormLabel htmlFor="email">E-mail</FormLabel>
-                        <Input id="email" type="email" {...register('email', {
+                        <Input id="email" borderColor='green' type="email" {...register('email', {
                             required: 'This is required',
                             minLength: { value: 10, message: 'Email deve ter mais de 10 caracteres' },
                         })}/>
@@ -91,14 +91,14 @@ function InicioAdm() {
                     <HStack spacing="4">
                     <Box w="100%">
                         <FormLabel htmlFor="senha">Senha</FormLabel>
-                        <Input id="senha" type="password" {...register('password', {
+                        <Input id="senha" borderColor='green' type="password" {...register('password', {
                             required: 'This is required',
                             minLength: { value: 6, message: 'Senha deve ter mais de 6 caracteres' },
                         })}/>
                     </Box>
                     <Box w="100%">
                         <FormLabel htmlFor="sobrenome">Sobrenome</FormLabel>
-                        <Input id="sobrenome" {...register('sobrenome', {
+                        <Input id="sobrenome" borderColor='green' {...register('sobrenome', {
                             required: 'This is required',
                             minLength: { value: 10, message: 'Sobrenome deve ter mais de 10 caracteres' },
                         })}/>
@@ -109,8 +109,8 @@ function InicioAdm() {
                         <FormLabel>Tipo</FormLabel>
                         <RadioGroup defaultValue="Aprendiz">
                         <HStack spacing="24px">
-                            <Radio value="Administrador" {...register('tipo')} >Administrador</Radio>
-                            <Radio value="Aprendiz" {...register('tipo')}>Aprendiz</Radio>
+                            <Radio value="Administrador" borderColor='green' {...register('tipo')} >Administrador</Radio>
+                            <Radio value="Aprendiz" borderColor='green' {...register('tipo')}>Aprendiz</Radio>
                         </HStack>
                         </RadioGroup>
                     </Box>
