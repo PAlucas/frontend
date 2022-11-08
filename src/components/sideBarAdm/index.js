@@ -17,9 +17,15 @@ export const SidebarAdm = [
     cName: 'nav-text'
   },
   {
-    title: 'Modulos',
+    title: 'Módulos',
     path: '/moduloAdm',
     icon: <IoIcons.IoIosPaper />,
+    cName: 'nav-text'
+  },
+  {
+    title: 'Acesso Módulos',
+    path: '/Acesso',
+    icon: <IoIcons.IoMdLock />,
     cName: 'nav-text'
   },
   {

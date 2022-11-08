@@ -55,6 +55,7 @@ function Navbar() {
                 })
               ) :(
                 SidebarAprendiz.map((item, index) => {
+                  
                   return (
                     <li key={index} className={item.cName}>
                       <Link to={`${item.path}?cliente=${tipoClient}`}>

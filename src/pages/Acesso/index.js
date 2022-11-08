@@ -18,7 +18,7 @@ import {
     FormErrorMessage,
   } from "@chakra-ui/react";
 
-function Cadastro() {  
+function Acesso() {  
   const {register, handleSubmit, formState: { errors, isSubmitting }, reset} = useForm();
 
   const onSubmit = (data) =>{
@@ -153,4 +153,4 @@ function Cadastro() {
   );
 }
 
-export default Cadastro;
+export default Acesso;
