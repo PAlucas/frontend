@@ -44,6 +44,7 @@ function LinhaModulo(props) {
                 
             });
         }
+        pegarTarefas();
         pegarProva();
       },[])
     return (
