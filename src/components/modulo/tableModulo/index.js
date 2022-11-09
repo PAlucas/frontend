@@ -14,12 +14,13 @@ import * as FaIcons from 'react-icons/fa';
 import TabelaTarefa from '../tableTarefa'
 import { useState, useEffect} from "react";
 import Api from '../../../service/Api';
-
+import axios from 'axios';
 function LinhaModulo(props) {
     const {row} = props;
     const [open, setOpen] = React.useState(false);
     const [openProva, setOpenProva] = React.useState(false);
     const [tutoriais, setTutoriais] = useState([]);
+    const [url, setUrl] = useState();
 
     useEffect(() =>{
         let criarTarefa = {
@@ -30,7 +31,20 @@ function LinhaModulo(props) {
             let res = await req.data;
             setTutoriais(res);
         }
-        pegarTarefas();
+        console.log(row)
+        const pegarProva = async () =>{
+            axios({
+                url: `http://localhost:3333/Prova/Prova?modulo=${row.modulo_id}`, //your url
+                method: 'POST',
+                responseType: 'blob', // important
+            }).then((response) => {
+                console.log(response.data.nome);
+                const href = URL.createObjectURL(response.data);
+                setUrl(href);
+                
+            });
+        }
+        pegarProva();
       },[])
     return (
     <React.Fragment>
@@ -90,7 +104,7 @@ function LinhaModulo(props) {
                                         alignItems: 'center'
                                     }}
                                     >
-                                        <span>Prova</span>
+                                        <a href={url} download="Prova.docx">Prova</a>
                                     </BoxM> 
                                 </Collapse>
                             </TableCell>
