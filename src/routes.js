@@ -4,6 +4,8 @@ import Inicio from './pages/Inicio'
 import Cadastro from './pages/cadastro'
 import Modulo from './pages/modulo'
 import Acesso from './pages/Acesso'
+import Tutoriais from './pages/tutoriais'
+import ModuloAprendiz from './pages/ModuloAprendiz'
 
 export const AppRoutes = () => {
   return (
@@ -13,7 +15,9 @@ export const AppRoutes = () => {
             <Route path="/inicio" exact element={<Inicio/>} />
             <Route path="/castrarUser" exact element={<Cadastro/>} />
             <Route path="/ModuloAdm" exact element={<Modulo/>} />
+            <Route path="/ModuloAprendiz" exact element={<ModuloAprendiz/>} />
             <Route path="/acesso" exact element={<Acesso/>} />
+            <Route path="/tutoriais" exact element={<Tutoriais/>} />
       </Routes>
     </Router>
   )

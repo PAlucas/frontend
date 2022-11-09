@@ -11,13 +11,10 @@ import {
     FormControl,
     FormLabel,
     HStack,
-    RadioGroup,
-    Radio,
     Button,
     FormErrorMessage,
     Select,
-    Checkbox, 
-    CheckboxGroup
+    Checkbox
   } from "@chakra-ui/react";
 
 function Acesso() {  
@@ -117,7 +114,7 @@ function Acesso() {
                     <HStack spacing="4">
                     <Box w="100%">
                         <FormLabel>Tipo</FormLabel>
-                        <HStack spacing="24px">
+                        <HStack spacing="24px" wrap="wrap">
                             {modulo.map((element) =>{
                                 let acessos = localStorage.getItem("acessos");
                                 if(acessos != null){

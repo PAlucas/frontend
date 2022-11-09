@@ -10,6 +10,7 @@ import * as FaIcons from 'react-icons/fa';
 function LinhaTarefa(props) {
     const { row } = props;
     const [open, setOpen] = React.useState(false);
+    console.log(row);
     return (
     <React.Fragment>
         <TableRow>
@@ -22,7 +23,7 @@ function LinhaTarefa(props) {
             </IconButton>
         </TableCell>
         <TableCell component="th" scope="row">
-            {row.name}
+            {row.nome}
         </TableCell>
         </TableRow>
         <TableRow>
@@ -30,7 +31,7 @@ function LinhaTarefa(props) {
             <Collapse in={open} timeout="auto" unmountOnExit>
                 <BoxM sx={{ margin: 1 }}>
                 <Typography variant="h6" gutterBottom component="div">
-                    {row.name}
+                    {row.nome}
                 </Typography>
                 <BoxM
                 sx={{
@@ -40,10 +41,9 @@ function LinhaTarefa(props) {
                     alignItems: 'center'
                 }}
                 >
-                    <span>Conteudo</span>
-                    <div>image</div>
+                    <span>{row.conteudo}</span>
                     <div>
-                        <iframe src="https://www.youtube.com/embed/2LvNRMJ1s3Y" frameborder="0"></iframe>
+                        <iframe src={row.video} frameborder="0"></iframe>
                     </div>
                 </BoxM> 
                 </BoxM>

@@ -10,14 +10,15 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Typography from '@mui/material/Typography';
+import TableModulo from '../../modulo/tableModulo';
 import Paper from '@mui/material/Paper';
-import TableModulo from '../tableModulo';
 import Api from '../../../service/Api';
-function CollapsibleTable() {
+function CollapsibleTableAprendiz() {
   const [modulos, setModulos] = useState([]);
+  const [valor, setValor] = useState(localStorage.getItem("id"));
   useEffect(() =>{
     const pegarModulos = async () =>{
-        let req = await Api.get("Modulo/Tarefas");
+        let req = await Api.post("Modulo/Aprendiz?cliente=2");
         let res = await req.data;
         setModulos(res);
     }
@@ -43,4 +44,4 @@ function CollapsibleTable() {
     );
 }
 
-export default CollapsibleTable;
+export default CollapsibleTableAprendiz;

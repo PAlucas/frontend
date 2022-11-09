@@ -12,43 +12,26 @@ import Typography from '@mui/material/Typography';
 import Paper from '@mui/material/Paper';
 import * as FaIcons from 'react-icons/fa';
 import TabelaTarefa from '../tableTarefa'
-
-function createDataAux(name, calories, fat, carbs, protein, price) {
-    return {
-      name,
-      calories,
-      fat,
-      carbs,
-      protein,
-      price,
-      history: [
-        {
-          date: '2020-01-05',
-          customerId: '11091700',
-          amount: 3,
-        },
-        {
-          date: '2020-01-02',
-          customerId: 'Anonymous',
-          amount: 1,
-        },
-      ],
-    };
-  }
-
-
-const rowsAux = [
-    createDataAux('Frozen yoghurt', 159, 6.0, 24, 4.0, 3.99),
-    createDataAux('Ice cream sandwich', 237, 9.0, 37, 4.3, 4.99),
-    createDataAux('Eclair', 262, 16.0, 24, 6.0, 3.79),
-    createDataAux('Cupcake', 305, 3.7, 67, 4.3, 2.5),
-    createDataAux('Gingerbread', 356, 16.0, 49, 3.9, 1.5),
-];
+import { useState, useEffect} from "react";
+import Api from '../../../service/Api';
 
 function LinhaModulo(props) {
-    const { row } = props;
+    const {row} = props;
     const [open, setOpen] = React.useState(false);
     const [openProva, setOpenProva] = React.useState(false);
+    const [tutoriais, setTutoriais] = useState([]);
+
+    useEffect(() =>{
+        let criarTarefa = {
+            modulo: row.modulo_id
+        }
+        const pegarTarefas = async () =>{
+            let req = await Api.post("Tutorial/Modulo", criarTarefa);
+            let res = await req.data;
+            setTutoriais(res);
+        }
+        pegarTarefas();
+      },[])
     return (
     <React.Fragment>
         <TableRow sx={{ '& > *': { borderBottom: 'unset' } }}>
@@ -62,9 +45,9 @@ function LinhaModulo(props) {
             </IconButton>
         </TableCell>
         <TableCell component="th" scope="row">
-            {row.name}
+            {row.nome}
         </TableCell>
-        <TableCell align="right">{row.calories}</TableCell>
+        <TableCell align="right">{row.numtarefa}</TableCell>
         </TableRow>
         <TableRow>
         <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={9}>
@@ -80,8 +63,8 @@ function LinhaModulo(props) {
                             </TableRow>
                         </TableHead>
                         <TableBody>
-                            {rowsAux.map((rowAux) => (
-                                <TabelaTarefa key={rowAux.name} row={rowAux}/>
+                            {tutoriais.map((rowAux) => (
+                                <TabelaTarefa key={rowAux.nome} row={rowAux}/>
                             ))}
                                     <TableRow>
                             <TableCell>

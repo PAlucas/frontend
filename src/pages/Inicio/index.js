@@ -13,11 +13,9 @@ function InicioAdm() {
   }
   useEffect(() => {
     const fetchData = async () => {
-      console.log(`Usuario/userId?cliente=${searchParams.get("cliente")}`);
       let dataUsuario = await Api.get(`Usuario/userId?cliente=${searchParams.get("cliente")}`);
       let result = await dataUsuario.data[0];
       setNomeUsuario(result.nome);
-      console.log(result);
     }
     fetchData();
   }, [searchParams]);
