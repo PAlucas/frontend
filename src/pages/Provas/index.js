@@ -22,42 +22,30 @@ import {
 
 function Cadastro() {  
   const {register, handleSubmit, formState: { errors, isSubmitting }, reset} = useForm();
-
+  const [modulos, setModulos] = useState([]);
+  useEffect(() =>{
+    const pegarModulos = async () =>{
+        let moduloReq = await Api.get('Modulo');
+        let moduloRes = await moduloReq.data;
+        setModulos(moduloRes);
+    }
+    pegarModulos();
+  },[])
   const onSubmit = (data) =>{
-    console.log(data);
     let formData = new FormData();
-    formData.append("name", data.name);
-    formData.append("email", data.email);
+    formData.append("modulo", data.modulo);
     formData.append("file", data.tipo[0]);
-
+    console.log(formData.get("modulo"))
     const headers = {
         "Content-Type": "multipart/form-data"
     };
-    Api.post("/Tutorial", formData, headers)
-    //   .then((res) => {
-    //     alert("File Upload success");
-    //   })
-    //   .catch((err) => alert("File Upload Error"));
-    // let criarUsuario = {
-    //     nome: data.name,
-    //     email: data.email,
-    //     senha: data.password,
-    //     sobrenome: data.sobrenome,
-    //     tipo: data.tipo === 'Administrador' ? '1': '2'
-    // }
-    // Api.post('usuario/Cadastrar', criarUsuario)
-    // .then((res) => {
-    //     alert(res.data)
-    //     if(res.status === 200){
-    //         reset();
-    //     }
-    // })
+    Api.post("/Prova", formData, headers)
+    .then((res) => {
+    alert(res.data);
+    })
+    .catch((err) => alert("File Upload Error"));
 
   }
-  const submitForm = () => {
-    
-
-  };
 
   return (
     <ChakraProvider>
@@ -91,31 +79,27 @@ function Cadastro() {
             boxShadow="0 1px 2px #ccc"
             >
             <form onSubmit={handleSubmit(onSubmit)}>
-                <FormControl display="flex" flexDir="column" gap="4" isInvalid={errors.name || errors.email || errors.password || errors.sobrenome}>
+                <FormControl display="flex" flexDir="column" gap="4">
                     <HStack spacing="4">
                         <Box w="100%" align="center">
-                            <h1>Criar Tutorial</h1>
+                            <h1>Criar Prova</h1>
                         </Box>
-                    </HStack>
-                    <HStack spacing="4">
-                    <Box w="100%">
-                        <FormLabel htmlFor="name">Nome</FormLabel>
-                        <Input id="name" borderColor='green' {...register('name', {
-                            required: 'This is required',
-                            minLength: { value: 4, message: 'Nome deve ter mais de 4 caracteres' },
-                        })} />
-                    </Box>
-                    <Box w="100%">
-                        <FormLabel htmlFor="email">Conteúdo</FormLabel>
-                        <Input id="email" borderColor='green' type="email" {...register('email', {
-                            required: 'This is required',
-                            minLength: { value: 10, message: 'Email deve ter mais de 10 caracteres' },
-                        })}/>
-                    </Box>
                     </HStack>
                     <HStack spacing="4">
                         <FormLabel htmlFor="senha">Arquivo</FormLabel>
                         <FileUpload register={register}/>
+                    </HStack>
+                    <HStack spacing="4">
+                        <Box w="100%">
+                            <FormLabel>Módulo</FormLabel>
+                            <RadioGroup defaultValue="Aprendiz">
+                            <HStack spacing="24px" wrap="wrap">
+                                {modulos.map((element)=>(
+                                    <Radio value={element.modulo_id.toString()} borderColor='green' {...register('modulo')} >{element.nome}</Radio>
+                                ))}
+                            </HStack>
+                            </RadioGroup>
+                        </Box>
                     </HStack>
                     <HStack justify="center">
                     <Button
@@ -133,18 +117,6 @@ function Cadastro() {
                         Enviar
                     </Button>
                     </HStack>
-                    <FormErrorMessage>
-                        {errors.name && errors.name.message}
-                    </FormErrorMessage>
-                    <FormErrorMessage>
-                        {errors.email && errors.email.message}
-                    </FormErrorMessage>
-                    <FormErrorMessage>
-                        {errors.password && errors.password.message}
-                    </FormErrorMessage>
-                    <FormErrorMessage>
-                        {errors.sobrenome && errors.sobrenome.message}
-                    </FormErrorMessage>
                 </FormControl>
             </form>
             </Center>
