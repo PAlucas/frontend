@@ -12,6 +12,7 @@ import { IconContext } from 'react-icons';
 function Navbar() {
   const [sidebar, setSidebar] = useState(false);
   const [tipoClient, setTipoClient] = useState(2);
+  const [cliente, setCliente] = useState();
   const showSidebar = () => setSidebar(!sidebar);
   const [searchParams, setSearchParams] = useSearchParams();
 
@@ -21,8 +22,10 @@ function Navbar() {
   useEffect(() => {
     const fetchData = async () => {
       let dataUsuario = await Api.get(`Usuario/userId?cliente=${searchParams.get("cliente")}`);
+      console.log(dataUsuario);
       let result = await dataUsuario.data[0];
       setTipo(result.tipo);
+      setCliente(result.usu_id);
     }
     fetchData();
   }, [searchParams]);
@@ -46,7 +49,7 @@ function Navbar() {
                 SidebarAdm.map((item, index) => {
                   return (
                     <li key={index} className={item.cName}>
-                      <Link to={`${item.path}?cliente=${tipoClient}`}>
+                      <Link to={`${item.path}?cliente=${cliente}`}>
                         {item.icon}
                         <span>{item.title}</span>
                       </Link>
@@ -58,7 +61,7 @@ function Navbar() {
                   
                   return (
                     <li key={index} className={item.cName}>
-                      <Link to={`${item.path}?cliente=${tipoClient}`}>
+                      <Link to={`${item.path}?cliente=${cliente}`}>
                         {item.icon}
                         <span>{item.title}</span>
                       </Link>
