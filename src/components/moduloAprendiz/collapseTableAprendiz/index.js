@@ -18,7 +18,7 @@ function CollapsibleTableAprendiz() {
   const [valor, setValor] = useState(localStorage.getItem("id"));
   useEffect(() =>{
     const pegarModulos = async () =>{
-        let req = await Api.post("Modulo/Aprendiz?cliente=2");
+        let req = await Api.post(`Modulo/Aprendiz?cliente=${valor}`);
         let res = await req.data;
         setModulos(res);
     }

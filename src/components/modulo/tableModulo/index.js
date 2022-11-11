@@ -21,6 +21,7 @@ function LinhaModulo(props) {
     const [openProva, setOpenProva] = React.useState(false);
     const [tutoriais, setTutoriais] = useState([]);
     const [url, setUrl] = useState();
+    const [download, setDownload] = useState()
 
     useEffect(() =>{
         let criarTarefa = {
@@ -31,14 +32,14 @@ function LinhaModulo(props) {
             let res = await req.data;
             setTutoriais(res);
         }
-        console.log(row)
+
         const pegarProva = async () =>{
             axios({
                 url: `http://localhost:3333/Prova/Prova?modulo=${row.modulo_id}`, //your url
                 method: 'POST',
                 responseType: 'blob', // important
             }).then((response) => {
-                console.log(response.data.nome);
+                console.log(response);
                 const href = URL.createObjectURL(response.data);
                 setUrl(href);
                 

@@ -22,7 +22,6 @@ function Navbar() {
   useEffect(() => {
     const fetchData = async () => {
       let dataUsuario = await Api.get(`Usuario/userId?cliente=${searchParams.get("cliente")}`);
-      console.log(dataUsuario);
       let result = await dataUsuario.data[0];
       setTipo(result.tipo);
       setCliente(result.usu_id);

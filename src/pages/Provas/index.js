@@ -31,11 +31,11 @@ function Cadastro() {
     }
     pegarModulos();
   },[])
+  
   const onSubmit = (data) =>{
     let formData = new FormData();
     formData.append("modulo", data.modulo);
     formData.append("file", data.tipo[0]);
-    console.log(formData.get("modulo"))
     const headers = {
         "Content-Type": "multipart/form-data"
     };

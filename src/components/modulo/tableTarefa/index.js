@@ -10,7 +10,6 @@ import * as FaIcons from 'react-icons/fa';
 function LinhaTarefa(props) {
     const { row } = props;
     const [open, setOpen] = React.useState(false);
-    console.log(row);
     return (
     <React.Fragment>
         <TableRow>
