@@ -17,6 +17,7 @@ function Login() {
     .then((res) => {
       navigate(`/inicio?cliente=${res.data[0].usu_id}`);
     })
+    .catch((res) => alert(res.response.data));
   }
   return (
     <div className="container">

@@ -13,12 +13,13 @@ import Typography from '@mui/material/Typography';
 import TableModulo from '../../modulo/tableModulo';
 import Paper from '@mui/material/Paper';
 import Api from '../../../service/Api';
+import { useSearchParams } from 'react-router-dom';
 function CollapsibleTableAprendiz() {
   const [modulos, setModulos] = useState([]);
-  const [valor, setValor] = useState(localStorage.getItem("id"));
+  const [searchParams, setSearchParams] = useSearchParams();
   useEffect(() =>{
     const pegarModulos = async () =>{
-        let req = await Api.post(`Modulo/Aprendiz?cliente=${valor}`);
+        let req = await Api.post(`Modulo/Aprendiz?cliente=${searchParams.get("cliente")}`);
         let res = await req.data;
         setModulos(res);
     }
