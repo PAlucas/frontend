@@ -21,7 +21,7 @@ function LinhaModulo(props) {
     const [openProva, setOpenProva] = React.useState(false);
     const [tutoriais, setTutoriais] = useState([]);
     const [url, setUrl] = useState();
-    const [download, setDownload] = useState()
+    const [nomeProva, setNomeProva] = useState();
 
     useEffect(() =>{
         let criarTarefa = {
@@ -34,16 +34,13 @@ function LinhaModulo(props) {
         }
 
         const pegarProva = async () =>{
-            axios({
-                url: `http://localhost:3333/Prova/Prova?modulo=${row.modulo_id}`, //your url
-                method: 'POST',
-                responseType: 'blob', // important
-            }).then((response) => {
-                console.log(response);
-                const href = URL.createObjectURL(response.data);
-                setUrl(href);
-                
-            });
+            console.log(row.modulo_id);
+            Api.post(`Prova/Prova?modulo=${row.modulo_id}`)
+            .then((res) => {
+                setNomeProva(res.data.nome);
+                setUrl(res.data.arquivo.url);
+            })
+            .catch((res) => setNomeProva("Sem Prova"));
         }
         pegarTarefas();
         pegarProva();
@@ -106,7 +103,7 @@ function LinhaModulo(props) {
                                         alignItems: 'center'
                                     }}
                                     >
-                                        <a href={url} download="Prova.docx">Prova</a>
+                                        <a href={url} download="Prova.docx">{nomeProva}</a>
                                     </BoxM> 
                                 </Collapse>
                             </TableCell>
