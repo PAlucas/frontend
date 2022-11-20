@@ -10,7 +10,7 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Typography from '@mui/material/Typography';
-import TableModulo from '../../modulo/tableModulo';
+import TableModuloAprendiz from '../tableModuloAprendiz';
 import Paper from '@mui/material/Paper';
 import Api from '../../../service/Api';
 import { useSearchParams } from 'react-router-dom';
@@ -37,7 +37,7 @@ function CollapsibleTableAprendiz() {
           </TableHead>
           <TableBody>
           {modulos.map((row) => (
-            <TableModulo key={row.nome} row={row} />
+            <TableModuloAprendiz key={row.nome} row={row} />
           ))}
           </TableBody>
         </Table>
