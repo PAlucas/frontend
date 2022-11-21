@@ -14,9 +14,10 @@ import * as FaIcons from 'react-icons/fa';
 import TabelaTarefaAprendiz from '../tableTarefaAprendiz'
 import { useState, useEffect} from "react";
 import Api from '../../../service/Api';
+import FileUpload from '../../FileUpload';
+import {useForm} from 'react-hook-form';
 import { useSearchParams } from 'react-router-dom';
-import axios from 'axios';
-import { set } from 'react-hook-form';
+import {Button} from "@chakra-ui/react";
 function LinhaModulo(props) {
     const [searchParams, setSearchParams] = useSearchParams();
     const {row} = props;
@@ -25,7 +26,32 @@ function LinhaModulo(props) {
     const [tutoriais, setTutoriais] = useState([]);
     const [url, setUrl] = useState();
     const [nomeProva, setNomeProva] = useState();
+    const [prova, setProva] = useState(false);
     const [tarefasFeitas, setTarefasFeitas] = useState('0');
+    const {register, handleSubmit, formState: { errors, isSubmitting }, reset} = useForm();
+
+
+    const onSubmit = (data) =>{
+        if(prova == false){
+            alert("Nao possui prova !!!");
+            return false;
+        } 
+
+        let formData = new FormData();
+        formData.append("provaId", prova.id);
+        formData.append("file", data.tipo[0]);
+        formData.append("usuId", searchParams.get("cliente"));
+        const headers = {
+            "Content-Type": "multipart/form-data"
+        };
+        Api.post("/Prova/EntregarProva", formData, headers)
+        .then((res) => {
+        alert(res.data);
+        })
+        .catch((err) => alert("File Upload Error"));
+    
+    }
+
     useEffect(() =>{
         
         let criarTarefa = {
@@ -53,6 +79,7 @@ function LinhaModulo(props) {
             Api.post(`Prova/Prova?modulo=${row.modulo_id}`)
             .then((res) => {
                 setNomeProva(res.data.nome);
+                setProva(res.data);
                 setUrl(res.data.arquivo.url);
             })
             .catch((res) => setNomeProva("Sem Prova"));
@@ -121,6 +148,25 @@ function LinhaModulo(props) {
                                     }}
                                     >
                                         <a href={url} download="Prova.docx">{nomeProva}</a>
+                                        <form onSubmit={handleSubmit(onSubmit)}>
+                                            <h1>Entregar a prova</h1>
+                                            <FileUpload register={register}/>
+                                            <Button
+                                                w={240}
+                                                p="6"
+                                                type="submit"
+                                                bg="teal.600"
+                                                color="green"
+                                                fontWeight="bold"
+                                                fontSize="xl"
+                                                mt="2"
+                                                _hover={{ bg: "teal.800" }}
+                                                isLoading={isSubmitting}  
+                                            >
+                                                Enviar
+                                            </Button>
+                                        </form>
+                                        
                                     </BoxM> 
                                 </Collapse>
                             </TableCell>
