@@ -34,7 +34,6 @@ function LinhaModulo(props) {
         }
 
         const pegarProva = async () =>{
-            console.log(row.modulo_id);
             Api.post(`Prova/Prova?modulo=${row.modulo_id}`)
             .then((res) => {
                 setNomeProva(res.data.nome);

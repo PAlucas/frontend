@@ -39,5 +39,11 @@ export const SidebarAdm = [
     path: '/provas',
     icon: <FaIcons.FaEnvelopeOpenText />,
     cName: 'nav-text'
+  },
+  {
+    title: 'Corrigir Provas',
+    path: '/provasCorrigir',
+    icon: <FaIcons.FaEnvelopeOpenText />,
+    cName: 'nav-text'
   }
 ];
