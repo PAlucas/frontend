@@ -22,7 +22,12 @@ function LinhaModulo(props) {
     const [tutoriais, setTutoriais] = useState([]);
     const [url, setUrl] = useState();
     const [nomeProva, setNomeProva] = useState();
-
+    function apagarModulo (){
+        Api.delete(`/Modulo/Deletar?moduloId=${row.modulo_id}`)
+        .then((res) => alert(res.data))
+        .catch((res) => alert(res.data))
+        console.log(row);
+    }
     useEffect(() =>{
         let criarTarefa = {
             modulo: row.modulo_id
@@ -58,6 +63,11 @@ function LinhaModulo(props) {
         </TableCell>
         <TableCell component="th" scope="row">
             {row.nome}
+        </TableCell>
+        <TableCell align="right">
+            <button onClick={apagarModulo}>
+                <FaIcons.FaTrashAlt />
+            </button>
         </TableCell>
         <TableCell align="right">{row.numtarefa}</TableCell>
         </TableRow>

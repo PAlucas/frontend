@@ -1,6 +1,6 @@
 import { useState, useEffect} from "react";
 import {useForm} from 'react-hook-form';
-import Api from '../../service/Api'
+import Api from '../../service/Api';
 import { ChakraProvider } from "@chakra-ui/react";
 import Navbar from "../../components/navbar";
 import ProvasAdm from "../../components/ProvasAdm/Tabela";

@@ -6,10 +6,16 @@ import TableCell from '@mui/material/TableCell';
 import TableRow from '@mui/material/TableRow';
 import Typography from '@mui/material/Typography';
 import * as FaIcons from 'react-icons/fa';
-
+import Api from '../../../service/Api';
 function LinhaTarefa(props) {
     const { row } = props;
     const [open, setOpen] = React.useState(false);
+    function apagarTutorial (){
+        Api.delete(`/Tutorial/Apagar?tutorialId=${row.tutorial_id}`)
+        .then((res) => alert(res.data))
+        .catch((res) => alert(res.data))
+        console.log(row);
+    }
     return (
     <React.Fragment>
         <TableRow>
@@ -23,6 +29,9 @@ function LinhaTarefa(props) {
         </TableCell>
         <TableCell component="th" scope="row">
             {row.nome}
+        </TableCell>
+        <TableCell component="th" scope="row">
+            <button onClick={apagarTutorial}> <FaIcons.FaTrashAlt /> </button>
         </TableCell>
         </TableRow>
         <TableRow>
