@@ -27,6 +27,7 @@ function ProvaNotas() {
     useEffect(() =>{
         Api.get("/Prova/ProvasCorrigir")
         .then((res) => setProvas(res.data))
+        .catch((res) => console.log(res.data))
     },[])
   return (
     <ChakraProvider>
